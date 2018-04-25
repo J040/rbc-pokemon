@@ -1,0 +1,11 @@
+0. Configurar mongo
+1. Armazenar no mongo pokemons até uma determinada geração
+2. Armazenar no mongo os casos de batalha
+3. Ler tabela de efetividade
+4. Atribuir pesos para cada atributo
+5. Calculo de similaridade
+6. Calcular similaridade dos dois pokemons(alternando: 3 combinações)
+7. Identificar se o caso é pertinente e armazená-lo
+---------------------------------------------------------------------
+8. Criar api passando os dois pokemons e retornando qual venceu
+9. Criar interface
