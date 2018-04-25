@@ -3,7 +3,6 @@ const express = require('express');
 
 const app = express();
 app.use(bodyParser.json());
-app.use(fileUpload());
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
