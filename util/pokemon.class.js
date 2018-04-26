@@ -12,7 +12,7 @@ class Pokemon {
 
     obterSimilaridade(pokemon) {
         let soma = 0;
-        for(Object.keys(STAT) of STAT)
+        for(stat of Object.keys(STAT))
             soma += obterSimilaridadeNumero(this[stat], pokemon[stat], STAT[stat].min, STAT[stat].max);
         // SIMILARIDADE ENTRE TIPOS
         return soma;
@@ -40,5 +40,5 @@ function obterSimilaridadeNumero(a, b, min, max) {
 }
 
 function obterSimilaridadeTipo(a, b) {
-        
+
 }
