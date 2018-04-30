@@ -3,6 +3,7 @@ const fs = require('fs');
 module.exports = function(router) {
     // GET
     router.get('/batalha/:p1/:p2', seguir);
+    router.get('/script', script);
 
     function seguir(request, response) {
         let result = new Combat(
@@ -15,23 +16,26 @@ module.exports = function(router) {
 
         let highestSim = 0;
         for(let i = 0; i < COMBATS.length; i++) {
+            let pokemon1 = POKEMONS[COMBATS[i].pokemon1];
+            let pokemon2 = POKEMONS[COMBATS[i].pokemon2];
+
             let similarity1 = 0;
-            similarity1 += result.pokemon1.getSimilarityValue(POKEMONS[COMBATS[i].pokemon1]);
-            similarity1 += result.pokemon2.getSimilarityValue(POKEMONS[COMBATS[i].pokemon2]);
+            similarity1 += result.pokemon1.getSimilarityValue(pokemon1);
+            similarity1 += result.pokemon2.getSimilarityValue(pokemon2);
             similarity1 /= 2;
 
             let similarity2 = 0;
-            similarity2 += result.pokemon1.getSimilarityValue(POKEMONS[COMBATS[i].pokemon2]);
-            similarity2 += result.pokemon2.getSimilarityValue(POKEMONS[COMBATS[i].pokemon1]);
+            similarity2 += result.pokemon1.getSimilarityValue(pokemon2);
+            similarity2 += result.pokemon2.getSimilarityValue(pokemon1);
             similarity2 /= 2;
                         
             let similarity;
             let winner;
             if(similarity1 > similarity2) {
-                similarity = similarity1;
+                similarity = similarity1;                
                 winner = (COMBATS[i].winner === COMBATS[i].pokemon1) ? result.pokemon1.dex : result.pokemon2.dex;
             } else {
-                similarity = similarity2;
+                similarity = similarity2;                
                 winner = (COMBATS[i].winner === COMBATS[i].pokemon1) ? result.pokemon2.dex : result.pokemon1.dex;
             }
 
@@ -44,8 +48,8 @@ module.exports = function(router) {
             }
 
             similarities.push({
-                p1: POKEMONS[COMBATS[i].pokemon1], 
-                p2: POKEMONS[COMBATS[i].pokemon2], 
+                p1: pokemon1,
+                p2: pokemon2,
                 winner: COMBATS[i].winner, 
                 similarity: similarity
             });
@@ -87,7 +91,7 @@ class Pokemon {
         this.types = [new Type(type1), new Type(type2)];
     }
 
-    getSimilarityValue(pokemon) {
+    getSimilarityValue(pokemon) {        
         let sum = 0;
         for(const s of Object.keys(this.stats))
             sum += getSimilarityNumberValue(this.stats[s], pokemon.stats[s], STATS[s].min, STATS[s].max);
@@ -215,6 +219,60 @@ function getCombatsLog() {
                 }
                 COMBATS.push(new Combat(pokemon1, pokemon2, winner));
             }
+        });
+    });
+}
+
+function script() {
+    let combats = [], old = [], pokemons = [];
+    getFileContent("./data/combats_old.csv").then(res => {
+        combats = res.split("\n").slice(1).map(r => r.split(","));
+        console.log("combats: ", combats.length);
+        getFileContent("./data/pokemon_old.csv").then(res => {
+            old = res.split("\n").slice(1).map(r => r.split(",").slice(0, 2));
+            console.log("old: ", old.length);
+            getFileContent("./data/pokemon.csv").then(res => {
+                pokemons = res.split("\n").slice(1).map(r => r.split(",").slice(0, 2));
+                console.log("new: ", pokemons.length);
+                writeNewFile("./data/combats.csv", combats, pokemons, old);
+            });
+        });
+    });
+}
+
+function writeNewFile(path, combats, pokemons, old) {
+    let newCombats = [];
+    combats.forEach((c, i) => {
+        let n = [0, 0, 0];
+        let o1 = old[ parseInt(c[0]) - 1 ];
+        let o2 = old[ parseInt(c[1]) - 1 ];
+        for(p of pokemons)
+            if(o1[1] == p[1]) {
+                n[0] = p[0];
+                if(o1[0] == c[2])
+                    n[2] = p[0];
+            }
+        for(p of pokemons)
+            if(o2[1] == p[1]) {
+                n[1] = p[0];
+                if(o2[1] == c[2])
+                    n[2] = p[0];
+            }
+        if(n[0] && n[1] && n[2]) {
+            newCombats.push(n.join(","));
+            console.log(c, " -> ", n);
+        }
+    });
+    setTimeout(() => {
+        console.log("Writing...");
+        fs.writeFile(path, newCombats.join("\n"));
+    }, 1000);
+}
+
+function getFileContent(path) {
+    return new Promise((resolve, reject) => {
+        fs.readFile(path, "utf-8", (error, result) => {
+            resolve(result);
         });
     });
 }
