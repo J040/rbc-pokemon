@@ -24,10 +24,14 @@
                         </div>
                         <div class="form-group">
                             <label for="pokemonLabel1"><b>Pokémon 1</b></label>
-                            <input type="text" class="form-control" id="exampleInputPokemon1" ng-model="p1.dex" aria-describedby="pokemonHelp" placeholder="Entre com o pokémon">
+                            <input type="text" class="form-control" id="exampleInputPokemon1" ng-model="p1.dex" ng-change="selectPokemon('p1')" aria-describedby="pokemonHelp" placeholder="Entre com o pokémon">
                             <small id="pokemon1" class="form-text text-muted">Digite apenas o número da pokedex relacionado ao pokémon.</small>
                         </div>
-                        
+
+                        <div>
+                            <img src="images/{{tipo.name.toLowerCase()}}.png" alt="" ng-repeat="tipo in p1.types">
+                        </div>
+
                         <div style="margin-top: 50px"></div>
 
                         <!-- HP -->
@@ -35,7 +39,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="basic-addon1">Vida</span>
                         </div>
-                            <input type="text" class="form-control" ng-model="p1.hp" placeholder="Entre com o vida" aria-label="HP" aria-describedby="basic-addon1">
+                            <input type="text" class="form-control" ng-model="p1.stats.hp" placeholder="Entre com o vida" aria-label="HP" aria-describedby="basic-addon1">
                         </div>
 
                         <!-- ATAQUE -->
@@ -43,7 +47,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="basic-addon1">Ataque</span>
                         </div>
-                            <input type="text" class="form-control" ng-model="p1.ataque" placeholder="Entre com o ataque" aria-label="ataque" aria-describedby="basic-addon1">
+                            <input type="text" class="form-control" ng-model="p1.stats.attack" placeholder="Entre com o ataque" aria-label="ataque" aria-describedby="basic-addon1">
                         </div>
 
                         <!-- DEFESA -->
@@ -51,7 +55,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="basic-addon1">Defesa</span>
                         </div>
-                            <input type="text" class="form-control" ng-model="p1.defesa" placeholder="Entre com a defesa" aria-label="defesa" aria-describedby="basic-addon1">
+                            <input type="text" class="form-control" ng-model="p1.stats.defense" placeholder="Entre com a defesa" aria-label="defesa" aria-describedby="basic-addon1">
                         </div>  
                         
                         <!-- SP ATAQUE -->
@@ -59,7 +63,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="basic-addon1">Sp. Ataque</span>
                         </div>
-                            <input type="text" class="form-control" ng-model="p1.spataque" placeholder="Entre com o Sp. Ataque" aria-label="spataque" aria-describedby="basic-addon1">
+                            <input type="text" class="form-control" ng-model="p1.stats.spAttack" placeholder="Entre com o Sp. Ataque" aria-label="spataque" aria-describedby="basic-addon1">
                         </div>               
                         
                         <!-- SP DEFESA -->
@@ -67,7 +71,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="basic-addon1">Sp. Defesa</span>
                         </div>
-                            <input type="text" class="form-control" ng-model="p1.spdefesa" placeholder="Entre com o Sp. Defesa" aria-label="spdefesa" aria-describedby="basic-addon1">
+                            <input type="text" class="form-control" ng-model="p1.stats.spDefense" placeholder="Entre com o Sp. Defesa" aria-label="spdefesa" aria-describedby="basic-addon1">
                         </div>  
                         
                         <!-- VELOCIDADE -->
@@ -75,7 +79,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="basic-addon1">Velocidade</span>
                         </div>
-                            <input type="text" class="form-control" ng-model="p1.velocidade" placeholder="Entre com a velocidade" aria-label="velocidade" aria-describedby="basic-addon1">
+                            <input type="text" class="form-control" ng-model="p1.stats.speed" placeholder="Entre com a velocidade" aria-label="velocidade" aria-describedby="basic-addon1">
                         </div>                                  
                         
                     </form> 
@@ -102,7 +106,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="basic-addon1">Vida</span>
                         </div>
-                            <input type="text" class="form-control" ng-model="p2.hp" placeholder="Entre com o vida" aria-label="HP" aria-describedby="basic-addon1">
+                            <input type="text" class="form-control" ng-model="p2.stast.hp" placeholder="Entre com o vida" aria-label="HP" aria-describedby="basic-addon1">
                         </div>
 
                         <!-- ATAQUE -->
@@ -110,7 +114,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="basic-addon1">Ataque</span>
                         </div>
-                            <input type="text" class="form-control" ng-model="p2.ataque" placeholder="Entre com o ataque" aria-label="ataque" aria-describedby="basic-addon1">
+                            <input type="text" class="form-control" ng-model="p2.stats.attack" placeholder="Entre com o ataque" aria-label="ataque" aria-describedby="basic-addon1">
                         </div>
 
                         <!-- DEFESA -->
@@ -118,7 +122,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="basic-addon1">Defesa</span>
                         </div>
-                            <input type="text" class="form-control" ng-model="p2.defesa" placeholder="Entre com a defesa" aria-label="defesa" aria-describedby="basic-addon1">
+                            <input type="text" class="form-control" ng-model="p2.stats.defense" placeholder="Entre com a defesa" aria-label="defesa" aria-describedby="basic-addon1">
                         </div>  
                         
                         <!-- SP ATAQUE -->
@@ -126,7 +130,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="basic-addon1">Sp. Ataque</span>
                         </div>
-                            <input type="text" class="form-control" ng-model="p2.spataque" placeholder="Entre com o Sp. Ataque" aria-label="spataque" aria-describedby="basic-addon1">
+                            <input type="text" class="form-control" ng-model="p2.stats.spAttack" placeholder="Entre com o Sp. Ataque" aria-label="spataque" aria-describedby="basic-addon1">
                         </div>               
                         
                         <!-- SP DEFESA -->
@@ -134,7 +138,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="basic-addon1">Sp. Defesa</span>
                         </div>
-                            <input type="text" class="form-control" ng-model="p2.spdefesa" placeholder="Entre com o Sp. Defesa" aria-label="spdefesa" aria-describedby="basic-addon1">
+                            <input type="text" class="form-control" ng-model="p2.stats.spDefense" placeholder="Entre com o Sp. Defesa" aria-label="spdefesa" aria-describedby="basic-addon1">
                         </div>  
                         
                         <!-- VELOCIDADE -->
@@ -142,7 +146,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="basic-addon1">Velocidade</span>
                         </div>
-                            <input type="text" class="form-control" ng-model="p2.velocidade" placeholder="Entre com a velocidade" aria-label="velocidade" aria-describedby="basic-addon1">
+                            <input type="text" class="form-control" ng-model="p2.stats.speed" placeholder="Entre com a velocidade" aria-label="velocidade" aria-describedby="basic-addon1">
                         </div>                                  
 
                     </form>
