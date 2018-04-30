@@ -18,14 +18,9 @@
                 <!-- ENTRADA DE POKEMONS EXISTÊNTES -->
                 <div class="col-sm">
                     <form>
-                        <div class="row" style="text-align: center">
+                        <div class="col-sm" style="text-align: center">
                             <!-- coluna 1 -->
-                            <div class="col-sm-10">
-                                <img src="{{'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/'+p1.dex+'.png'}}" alt="">
-                            </div>
-                            <div class="col-sm-2">
-                                <img src="images/{{tipo.name.toLowerCase()}}.png" style="width:100%" alt="" ng-repeat="tipo in p1.types">
-                            </div>                            
+                            <img src="{{'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/'+p1.dex+'.png'}}" alt="">
                         </div>
                         <div class="form-group">
                             <label for="pokemonLabel1"><b>Pokémon 1</b></label>
@@ -33,7 +28,9 @@
                             <small id="pokemon1" class="form-text text-muted">Digite apenas o número da pokedex relacionado ao pokémon.</small>
                         </div>
 
-                        <div style="margin-top: 50px"></div>
+                        <div style="padding: 10px 0 20px 0">
+                            <img src="images/{{tipo.name.toLowerCase()}}.png" style="width:10%" alt="" ng-repeat="tipo in p1.types">
+                        </div>
 
                         <!-- HP -->
                         <div class="input-group mb-3">
@@ -96,18 +93,20 @@
                         </div>
                         <div class="form-group">
                             <label for="pokemonLabel2"><b>Pokémon 2</b></label>
-                            <input type="text" class="form-control" id="exampleInputPokemon1" ng-model="p2.dex" aria-describedby="pokemonHelp" placeholder="Entre com o pokémon">
+                            <input type="text" class="form-control" id="exampleInputPokemon1" ng-model="p2.dex" ng-change="selectPokemon('p2')" aria-describedby="pokemonHelp" placeholder="Entre com o pokémon">
                             <small id="pokemon2" class="form-text text-muted">Digite apenas o número da pokedex relacionado ao pokémon.</small>
                         </div>
 
-                        <div style="margin-top: 50px"></div>
+                        <div style="padding: 10px 0 20px 0">
+                            <img src="images/{{tipo.name.toLowerCase()}}.png" style="width:10%" alt="" ng-repeat="tipo in p2.types">
+                        </div>
 
                         <!-- HP -->
                         <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="basic-addon1">Vida</span>
                         </div>
-                            <input type="text" class="form-control" ng-model="p2.stast.hp" placeholder="Entre com o vida" aria-label="HP" aria-describedby="basic-addon1">
+                            <input type="text" class="form-control" ng-model="p2.stats.hp" placeholder="Entre com o vida" aria-label="HP" aria-describedby="basic-addon1">
                         </div>
 
                         <!-- ATAQUE -->
@@ -161,7 +160,7 @@
             <div class="row">
                 <div class="col-sm" style="text-align: center">
                     <!-- coluna 1 -->
-                    <button type="button" class="btn btn-warning" data-toggle="modal" style="height:50px; width:200px" data-target="#PokeModal">
+                    <button type="button" ng-click="batalhar(p1.dex, p2.dex)" class="btn btn-warning" data-toggle="modal" style="height:50px; width:200px" data-target="#PokeModal">
                         Batalhar
                     </button>
                 </div>

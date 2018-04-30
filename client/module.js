@@ -18,13 +18,24 @@ function PokeController($scope, $http) {
             let indice = parseInt($scope.p1.dex) - 1;
             $scope.p1.stats = POKEMONS[indice].stats;
             $scope.p1.types = POKEMONS[indice].types;
+            if($scope.p1.types[0].name == $scope.p1.types[1].name)
+                $scope.p1.types.split(1, 1);
         }
         else {
             let indice = parseInt($scope.p2.dex) - 1;
             $scope.p2.stats = POKEMONS[indice].stats;
             $scope.p2.types = POKEMONS[indice].types;
+            if($scope.p2.types[0].name == $scope.p2.types[1].name)
+                $scope.p2.types.split(1, 1);
         }
-        console.log($scope.p1);
+    }
+
+    $scope.batalhar = function(p1, p2) {
+        $http
+            .get("http://localhost:9191/api/batalhar/"+p1+"/"+p2)
+            .then(res => {
+                console.log(res);
+            });
     }
 
     let POKEMONS;
