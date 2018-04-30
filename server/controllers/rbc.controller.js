@@ -2,10 +2,11 @@ const fs = require('fs');
 
 module.exports = function(router) {
     // GET
-    router.get('/batalha/:p1/:p2', seguir);
+    router.get('/batalha/:p1/:p2', batalhar);
+    router.get('/pokemons', getPokemonList);
     router.get('/script', script);
 
-    function seguir(request, response) {
+    function batalhar(request, response) {
         let result = new Combat(
             POKEMONS[request.params.p1],
             POKEMONS[request.params.p2],
@@ -57,18 +58,22 @@ module.exports = function(router) {
         console.log("VENCEDORRRR: ", result.winner);
         similarities
             .sort((a, b) => b.similarity - a.similarity)
-            .slice(0, 10)
+            .slice(0, 10)            
             .forEach(s => console.log('sim: ', s.similarity, ' p1: ', s.p1.dex, s.p1.name, ' p2: ', s.p2.dex, s.p2.name, ' w: ', s.winner));        
 
-        response.send(`<div style='display: -webkit-flex;
-                                display: -ms-flexbox;
-                                display: flex;
-                                justify-content: center;
-                                width: 100%;
-                                position: fixed;
-                                float: left;
-                                top: 40%'>
-        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${result.winner}.png"/> </div>`);
+        response.json(
+            similarities
+                .sort((a, b) => b.similarity - a.similarity)
+                .slice(0, 10)
+                .map(s => ({sim: s.similarity, p1: s.p1.dex, p2: s.p2.dex}))
+        );
+    }
+
+    function getPokemonList(req, res) {
+        let pokemons = [];
+        for(key of Object.keys(POKEMONS))
+            pokemons.push(POKEMONS[key]);
+        res.json(pokemons.sort((a, b) => parseInt(a.dex) - parseInt(b.dex)));
     }
 }
 
