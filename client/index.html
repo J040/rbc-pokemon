@@ -184,13 +184,33 @@
                                 <h2 style="color: darkgoldenrod; text-align: center; margin-top: 5  0px; margin-bottom: 20px">POKÉMON VENCEDOR!</h2>
                             </div>
                             <div style="text-align: center">
-                                <img src="{{'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/'+p2.dex+'.png'}}" alt="">
+                                <img src="{{'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/'+vencedor+'.png'}}" alt="">
                             </div>
                             <div style="margin-bottom: 50px"></div>
                             <div style="text-align: right">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
                             </div>
                         </div>    
+                        <table class="table">
+                            <thead>
+                              <tr>
+                                <th scope="col">1P</th>
+                                <th scope="col">2P</th>
+                                <th scope="col">Similaridade</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr data-ng-repeat="sim in similaridades">
+                                <td>
+                                    <img src="{{'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/'+sim.p1+'.png'}}" />
+                                </td>
+                                <td>
+                                    <img src="{{'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/'+sim.p2+'.png'}}" />
+                                </td>
+                                <td>{{sim.sim*100 | number: 2}}%</td>
+                              </tr>
+                            </tbody>
+                        </table>
                         <!-- <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
                         </div> -->

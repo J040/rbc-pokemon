@@ -32,20 +32,17 @@ module.exports = function(router) {
                         
             let similarity;
             let winner;
-            if(similarity1 > similarity2) {
-                similarity = similarity1;                
-                winner = (COMBATS[i].winner === COMBATS[i].pokemon1) ? result.pokemon1.dex : result.pokemon2.dex;
-            } else {
-                similarity = similarity2;                
-                winner = (COMBATS[i].winner === COMBATS[i].pokemon1) ? result.pokemon2.dex : result.pokemon1.dex;
-            }
+            if(similarity1 > similarity2)
+                similarity = similarity1;
+            else
+                similarity = similarity2;
 
             if(similarity >= highestSim) {
                 highestSim = similarity;
-                if(similarity1 > similarity2)
-                    result.winner = (winner === COMBATS[i].pokemon1) ? result.pokemon1.dex : result.pokemon2.dex;
+                if(similarity1 >= similarity2)
+                    result.winner = (COMBATS[i].winner == COMBATS[i].pokemon1) ? result.pokemon1.dex : result.pokemon2.dex;
                 else
-                    result.winner = (winner === COMBATS[i].pokemon1) ? result.pokemon2.dex : result.pokemon1.dex;
+                    result.winner = (COMBATS[i].winner == COMBATS[i].pokemon1) ? result.pokemon2.dex : result.pokemon1.dex;
             }
 
             similarities.push({
@@ -61,12 +58,13 @@ module.exports = function(router) {
             .slice(0, 10)            
             .forEach(s => console.log('sim: ', s.similarity, ' p1: ', s.p1.dex, s.p1.name, ' p2: ', s.p2.dex, s.p2.name, ' w: ', s.winner));        
 
-        response.json(
-            similarities
+        response.json({
+            winner: result.winner,
+            rank: similarities
                 .sort((a, b) => b.similarity - a.similarity)
                 .slice(0, 10)
                 .map(s => ({sim: s.similarity, p1: s.p1.dex, p2: s.p2.dex}))
-        );
+        });
     }
 
     function getPokemonList(req, res) {
@@ -78,6 +76,7 @@ module.exports = function(router) {
 }
 
 /* INITIALIZING */
+let TYPE_WEIGHT = 2;
 let EFFECTIVENESS_TABLE;
 let COMBATS;
 let POKEMONS;
@@ -101,11 +100,11 @@ class Pokemon {
         for(const s of Object.keys(this.stats))
             sum += getSimilarityNumberValue(this.stats[s], pokemon.stats[s], STATS[s].min, STATS[s].max);
         
-        let sim1 = 3 * getSimilarityTypeValue(this.types[0], pokemon.types[0])
-                 + 3 * getSimilarityTypeValue(this.types[1], pokemon.types[1]);
+        let sim1 = TYPE_WEIGHT * getSimilarityTypeValue(this.types[0], pokemon.types[0])
+                 + TYPE_WEIGHT * getSimilarityTypeValue(this.types[1], pokemon.types[1]);
 
-        let sim2 = 3 * getSimilarityTypeValue(this.types[0], pokemon.types[1])
-                 + 3 * getSimilarityTypeValue(this.types[1], pokemon.types[0]);        
+        let sim2 = TYPE_WEIGHT * getSimilarityTypeValue(this.types[0], pokemon.types[1])
+                 + TYPE_WEIGHT * getSimilarityTypeValue(this.types[1], pokemon.types[0]);        
         sum += (sim1 > sim2) ? sim1 : sim2;
         
         return sum / (Object.keys(this.stats).length + 6);
