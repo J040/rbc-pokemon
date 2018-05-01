@@ -15,12 +15,14 @@ function PokeController($scope, $http) {
     $scope.selectPokemon = function(side) {
         if(side == "p1" && $scope.p1.dex) {
             let indice = parseInt($scope.p1.dex) - 1;
+            $scope.p1.name = POKEMONS[indice].name;
             $scope.p1.stats = POKEMONS[indice].stats;
             $scope.p1.types = POKEMONS[indice].types;
             if($scope.p1.types[0].name == $scope.p1.types[1].name)
                 $scope.p1.types.splice(1, 1);
-        } else if($scope.p2.dex) {
+        } else if(side == "p2" && $scope.p2.dex) {
             let indice = parseInt($scope.p2.dex) - 1;
+            $scope.p2.name = POKEMONS[indice].name;
             $scope.p2.stats = POKEMONS[indice].stats;
             $scope.p2.types = POKEMONS[indice].types;
             if($scope.p2.types[0].name == $scope.p2.types[1].name)
@@ -36,6 +38,10 @@ function PokeController($scope, $http) {
                 $scope.similaridades = res.data.rank;
             });
     }
+
+    $scope.loser = function(dex, winner) {
+        return { 'loser': dex != winner }
+    };
 
     let POKEMONS;
     $http

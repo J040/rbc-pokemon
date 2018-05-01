@@ -7,64 +7,18 @@ module.exports = function(router) {
     router.get('/script', script);
 
     function batalhar(request, response) {
-        let result = new Combat(
+        let combat = new Combat(
             POKEMONS[request.params.p1],
             POKEMONS[request.params.p2],
             0
         );
 
-        let similarities = [];
+        let rank = getSimilarityRank(combat);
 
-        let highestSim = 0;
-        for(let i = 0; i < COMBATS.length; i++) {
-            let pokemon1 = POKEMONS[COMBATS[i].pokemon1];
-            let pokemon2 = POKEMONS[COMBATS[i].pokemon2];
-
-            let similarity1 = 0;
-            similarity1 += result.pokemon1.getSimilarityValue(pokemon1);
-            similarity1 += result.pokemon2.getSimilarityValue(pokemon2);
-            similarity1 /= 2;
-
-            let similarity2 = 0;
-            similarity2 += result.pokemon1.getSimilarityValue(pokemon2);
-            similarity2 += result.pokemon2.getSimilarityValue(pokemon1);
-            similarity2 /= 2;
-                        
-            let similarity;
-            let winner;
-            if(similarity1 > similarity2)
-                similarity = similarity1;
-            else
-                similarity = similarity2;
-
-            if(similarity >= highestSim) {
-                highestSim = similarity;
-                if(similarity1 >= similarity2)
-                    result.winner = (COMBATS[i].winner == COMBATS[i].pokemon1) ? result.pokemon1.dex : result.pokemon2.dex;
-                else
-                    result.winner = (COMBATS[i].winner == COMBATS[i].pokemon1) ? result.pokemon2.dex : result.pokemon1.dex;
-            }
-
-            similarities.push({
-                p1: pokemon1,
-                p2: pokemon2,
-                winner: COMBATS[i].winner, 
-                similarity: similarity
-            });
-        }
-        console.log("VENCEDORRRR: ", result.winner);
-        similarities
-            .sort((a, b) => b.similarity - a.similarity)
-            .slice(0, 10)            
-            .forEach(s => console.log('sim: ', s.similarity, ' p1: ', s.p1.dex, s.p1.name, ' p2: ', s.p2.dex, s.p2.name, ' w: ', s.winner));        
-
-        response.json({
-            winner: result.winner,
-            rank: similarities
-                .sort((a, b) => b.similarity - a.similarity)
-                .slice(0, 10)
-                .map(s => ({sim: s.similarity, p1: s.p1.dex, p2: s.p2.dex}))
-        });
+        combat.winner = rank.winner;
+        console.log("VENCEDORRRR: ", combat.winner);
+        console.log(rank);
+        response.json(rank);
     }
 
     function getPokemonList(req, res) {
@@ -73,6 +27,55 @@ module.exports = function(router) {
             pokemons.push(POKEMONS[key]);
         res.json(pokemons.sort((a, b) => parseInt(a.dex) - parseInt(b.dex)));
     }
+}
+
+function getSimilarityRank(combat) {
+    let similarities = [];
+    
+    let highestSim = 0;
+    for(let i = 0; i < COMBATS.length; i++) {
+        let pokemon1 = POKEMONS[COMBATS[i].pokemon1];
+        let pokemon2 = POKEMONS[COMBATS[i].pokemon2];
+
+        let similarity1 = 0;
+        similarity1 += combat.pokemon1.getSimilarityValue(pokemon1);
+        similarity1 += combat.pokemon2.getSimilarityValue(pokemon2);
+        similarity1 /= 2;
+
+        let similarity2 = 0;
+        similarity2 += combat.pokemon1.getSimilarityValue(pokemon2);
+        similarity2 += combat.pokemon2.getSimilarityValue(pokemon1);
+        similarity2 /= 2;
+                    
+        let similarity;
+        if(similarity1 > similarity2) {
+            similarity = similarity1;
+        } else {
+            similarity = similarity2;
+            let p = pokemon1;
+            pokemon1 = pokemon2;
+            pokemon2 = p;
+        }
+
+        if(similarity > highestSim) {
+            combat.winner = (COMBATS[i].winner == pokemon1.dex) ? combat.pokemon1.dex : combat.pokemon2.dex;    
+            highestSim = similarity;
+        }
+        
+        similarities.push({
+            p1: pokemon1,
+            p2: pokemon2,
+            winner: COMBATS[i].winner, 
+            similarity: similarity
+        });
+    }
+    return {
+        winner: combat.winner,
+        rank: similarities
+            .sort((a, b) => b.similarity - a.similarity)
+            .slice(0, 10)
+            .map(s => ({sim: s.similarity, p1: s.p1.dex, p2: s.p2.dex, winner: s.winner}))
+    };
 }
 
 /* INITIALIZING */

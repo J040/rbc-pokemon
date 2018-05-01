@@ -9,8 +9,17 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>        
         <script type="text/javascript" src="./vendors/angular.min.js"></script>
         <script type="text/javascript" src="./module.js"></script>
+        <style>
+            .loser  {
+                opacity: 0.3;
+            }
+            .main-poke {
+                width: 150px;
+                height: 150px;
+            }
+        </style>
     </head>
-    <body data-ng-app="PokeModule" data-ng-controller="PokeController">
+    <body data-ng-app="PokeModule" data-ng-controller="PokeController" style='background-color: #FAFAFA'>
         <div style="margin-top: 50px;"></div>
         <div class="container">
             <div class="row">
@@ -20,10 +29,10 @@
                     <form>
                         <div class="col-sm" style="text-align: center">
                             <!-- coluna 1 -->
-                            <img src="{{'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/'+p1.dex+'.png'}}" alt="">
+                            <img class="main-poke" src="{{'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/'+p1.dex+'.png'}}" alt="">
                         </div>
                         <div class="form-group">
-                            <label for="pokemonLabel1"><b>Pokémon 1</b></label>
+                            <label for="pokemonLabel1"><b>{{p1.name || 'Pokémon 1'}}</b></label>
                             <input type="text" class="form-control" id="exampleInputPokemon1" ng-model="p1.dex" ng-change="selectPokemon('p1')" aria-describedby="pokemonHelp" placeholder="Entre com o pokémon">
                             <small id="pokemon1" class="form-text text-muted">Digite apenas o número da pokedex relacionado ao pokémon.</small>
                         </div>
@@ -89,10 +98,10 @@
                     <form>
                         <div class="col-sm" style="text-align: center">
                             <!-- coluna 3 -->
-                            <img src="{{'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/'+p2.dex+'.png'}}" alt="">
+                            <img class="main-poke" src="{{'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/'+p2.dex+'.png'}}" alt="">
                         </div>
                         <div class="form-group">
-                            <label for="pokemonLabel2"><b>Pokémon 2</b></label>
+                            <label for="pokemonLabel2"><b>{{p2.name || 'Pokémon 2'}}</b></label>
                             <input type="text" class="form-control" id="exampleInputPokemon1" ng-model="p2.dex" ng-change="selectPokemon('p2')" aria-describedby="pokemonHelp" placeholder="Entre com o pokémon">
                             <small id="pokemon2" class="form-text text-muted">Digite apenas o número da pokedex relacionado ao pokémon.</small>
                         </div>
@@ -183,8 +192,16 @@
                             <div>
                                 <h2 style="color: darkgoldenrod; text-align: center; margin-top: 5  0px; margin-bottom: 20px">POKÉMON VENCEDOR!</h2>
                             </div>
-                            <div style="text-align: center">
-                                <img src="{{'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/'+vencedor+'.png'}}" alt="">
+                            <div class="row">
+                                <div class="col-sm-5" style="text-align: center">
+                                    <img ng-class="loser(p1.dex, vencedor)" src="{{'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/'+p1.dex+'.png'}}" alt="">
+                                </div>
+                                <div class="col-sm-2" style="text-align: center">
+                                    <img src="./images/vsp.png" style="margin-top: 30px; height: 25px; width: 25px">
+                                </div>
+                                <div class="col-sm-5" style="text-align: center">
+                                    <img ng-class="loser(p2.dex, vencedor)" src="{{'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/'+p2.dex+'.png'}}" alt="">
+                                </div>                                                                                                
                             </div>
                             <div style="margin-bottom: 50px"></div>
                             <div style="text-align: right">
@@ -202,10 +219,10 @@
                             <tbody>
                               <tr data-ng-repeat="sim in similaridades">
                                 <td>
-                                    <img src="{{'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/'+sim.p1+'.png'}}" />
+                                    <img ng-class='loser(sim.p1, sim.winner)' src="{{'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/'+sim.p1+'.png'}}" />
                                 </td>
                                 <td>
-                                    <img src="{{'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/'+sim.p2+'.png'}}" />
+                                    <img ng-class='loser(sim.p2, sim.winner)' src="{{'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/'+sim.p2+'.png'}}" />
                                 </td>
                                 <td>{{sim.sim*100 | number: 2}}%</td>
                               </tr>
