@@ -210,21 +210,30 @@
                         </div>    
                         <table class="table">
                             <thead>
-                              <tr>
-                                <th scope="col">1P</th>
-                                <th scope="col">2P</th>
-                                <th scope="col">Similaridade</th>
+                              <tr class="row" style='margin: 0'>
+                                <th class="col-sm-5" scope="col">P1</th>
+                                <th class="col-sm-5" scope="col">P2</th>
+                                <th class="col-sm-2" scope="col">Sim.</th>
                               </tr>
                             </thead>
                             <tbody>
-                              <tr data-ng-repeat="sim in similaridades">
-                                <td>
+                              <tr data-ng-repeat="sim in similaridades"  class="row" style='margin: 0'>
+                                <!-- POKEMON 1 -->
+                                <td class="col-sm-1">
+                                    <img src="images/{{tipo.name.toLowerCase()}}.png" style="width:25px; height: 25px; display: inline-block" alt="" ng-repeat="tipo in getPokemon(sim.p1).types">
+                                </td>
+                                <td class="col-sm-4">
                                     <img ng-class='loser(sim.p1, sim.winner)' src="{{'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/'+sim.p1+'.png'}}" />
                                 </td>
-                                <td>
+                                <!-- POKEMON 2 -->
+                                <td class="col-sm-1">
+                                    <img src="images/{{tipo.name.toLowerCase()}}.png" style="width:25px; height: 25px; display: inline-block" alt="" ng-repeat="tipo in getPokemon(sim.p2).types">
+                                </td>
+                                <td class="col-sm-4">
                                     <img ng-class='loser(sim.p2, sim.winner)' src="{{'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/'+sim.p2+'.png'}}" />
                                 </td>
-                                <td>{{sim.sim*100 | number: 2}}%</td>
+                                <!-- SIMILARIDADE -->
+                                <td class="col-sm-2">{{sim.sim*100 | number: 2}}%</td>
                               </tr>
                             </tbody>
                         </table>
