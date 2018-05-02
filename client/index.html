@@ -240,14 +240,14 @@
                                     <img src="images/{{tipo.name.toLowerCase()}}.png" style="width:25px; height: 25px; display: inline-block" alt="" ng-repeat="tipo in getPokemon(sim.p1).types">
                                 </td>
                                 <td class="col-sm-4">
-                                    <img ng-class='loser(sim.p1, sim.winner)' src="{{'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/'+sim.p1+'.png'}}" />
+                                    <img title="{{sim.p1 + ' - ' + POKEMONS[sim.p1-1].name}}" ng-class='loser(sim.p1, sim.winner)' src="{{'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/'+sim.p1+'.png'}}" />
                                 </td>
                                 <!-- POKEMON 2 -->
                                 <td class="col-sm-1">
                                     <img src="images/{{tipo.name.toLowerCase()}}.png" style="width:25px; height: 25px; display: inline-block" alt="" ng-repeat="tipo in getPokemon(sim.p2).types">
                                 </td>
                                 <td class="col-sm-4">
-                                    <img ng-class='loser(sim.p2, sim.winner)' src="{{'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/'+sim.p2+'.png'}}" />
+                                    <img title="{{sim.p2 + ' - ' + POKEMONS[sim.p2-1].name}}" ng-class='loser(sim.p2, sim.winner)' src="{{'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/'+sim.p2+'.png'}}" />
                                 </td>
                                 <!-- SIMILARIDADE -->
                                 <td class="col-sm-2">{{sim.sim*100 | number: 2}}%</td>

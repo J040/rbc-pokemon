@@ -43,7 +43,7 @@ function PokeController($scope, $http) {
         return { 'loser': dex != winner }
     };
 
-    $scope.getPokemon = function(dex, removeSecondType = false) {
+    $scope.getPokemon = function(dex) {
         return POKEMONS[dex - 1];
     }
 
@@ -52,6 +52,7 @@ function PokeController($scope, $http) {
         .get("http://localhost:9191/api/pokemons", {})
         .then(res => {
             POKEMONS = res.data;
+            $scope.POKEMONS = POKEMONS;
         });
     
 }
