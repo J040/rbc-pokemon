@@ -17,6 +17,12 @@
                 width: 150px;
                 height: 150px;
             }
+            .clickable:hover {
+                cursor:pointer;
+                opacity: 0.7;
+                width: 130px;
+                height: 172px;
+            }
         </style>
     </head>
     <body data-ng-app="PokeModule" data-ng-controller="PokeController" style='background-color: #FAFAFA'>
@@ -44,15 +50,21 @@
                         <!-- HP -->
                         <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1">Vida</span>
+                            <span class="input-group-text" id="basic-addon1">
+                                Vida
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            </span>
                         </div>
-                            <input type="text" class="form-control" ng-model="p1.stats.hp" placeholder="Entre com o vida" aria-label="HP" aria-describedby="basic-addon1">
+                            <input type="text" class="form-control" ng-model="p1.stats.hp" placeholder="Entre com a vida" aria-label="HP" aria-describedby="basic-addon1">
                         </div>
 
                         <!-- ATAQUE -->
                         <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1">Ataque</span>
+                            <span class="input-group-text" id="basic-addon1">
+                                Ataque
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            </span>
                         </div>
                             <input type="text" class="form-control" ng-model="p1.stats.attack" placeholder="Entre com o ataque" aria-label="ataque" aria-describedby="basic-addon1">
                         </div>
@@ -60,7 +72,10 @@
                         <!-- DEFESA -->
                         <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1">Defesa</span>
+                            <span class="input-group-text" id="basic-addon1">
+                                Defesa
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            </span>
                         </div>
                             <input type="text" class="form-control" ng-model="p1.stats.defense" placeholder="Entre com a defesa" aria-label="defesa" aria-describedby="basic-addon1">
                         </div>  
@@ -92,7 +107,14 @@
                     </form> 
                 </div>
                 <div class="col-sm" style="text-align: center">
-                    <img src="./images/vsp.png" style="size: 30px">
+                    <div style="margin-top: 25%">
+                        <img class="clickable" src="./images/vsp.png" style="size: 30px" ng-click="batalhar(p1.dex, p2.dex)" data-toggle="modal" data-target="#PokeModal">
+                    </div>
+                    <!--<div style="margin-top: 60%">
+                        <button type="button" ng-click="batalhar(p1.dex, p2.dex)" class="btn btn-warning" data-toggle="modal" style="height:50px; width:200px" data-target="#PokeModal">
+                            Batalhar
+                        </button>
+                    </div>-->
                 </div> 
                 <div class="col-sm">
                     <form>
@@ -113,15 +135,21 @@
                         <!-- HP -->
                         <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1">Vida</span>
+                            <span class="input-group-text" id="basic-addon1">
+                                Vida
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            </span>
                         </div>
-                            <input type="text" class="form-control" ng-model="p2.stats.hp" placeholder="Entre com o vida" aria-label="HP" aria-describedby="basic-addon1">
+                            <input type="text" class="form-control" ng-model="p2.stats.hp" placeholder="Entre com a vida" aria-label="HP" aria-describedby="basic-addon1">
                         </div>
 
                         <!-- ATAQUE -->
                         <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1">Ataque</span>
+                            <span class="input-group-text" id="basic-addon1">
+                                Ataque
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            </span>
                         </div>
                             <input type="text" class="form-control" ng-model="p2.stats.attack" placeholder="Entre com o ataque" aria-label="ataque" aria-describedby="basic-addon1">
                         </div>
@@ -129,7 +157,10 @@
                         <!-- DEFESA -->
                         <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1">Defesa</span>
+                            <span class="input-group-text" id="basic-addon1">
+                                Defesa
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            </span>
                         </div>
                             <input type="text" class="form-control" ng-model="p2.stats.defense" placeholder="Entre com a defesa" aria-label="defesa" aria-describedby="basic-addon1">
                         </div>  
@@ -160,20 +191,6 @@
 
                     </form>
                 </div>
-
-            
-            </div>
-
-            <!-- BOTÕES -->
-            <div class="w-100" style="margin-top: 100px"></div>
-            <div class="row">
-                <div class="col-sm" style="text-align: center">
-                    <!-- coluna 1 -->
-                    <button type="button" ng-click="batalhar(p1.dex, p2.dex)" class="btn btn-warning" data-toggle="modal" style="height:50px; width:200px" data-target="#PokeModal">
-                        Batalhar
-                    </button>
-                </div>
-                
             </div>
 
             <!-- MODAL -->
@@ -243,10 +260,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
-
-        
-
     </body>
 </html>
