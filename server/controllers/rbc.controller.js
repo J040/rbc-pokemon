@@ -16,7 +16,6 @@ module.exports = function(router) {
         let rank = getSimilarityRank(combat);
 
         combat.winner = rank.winner;
-        console.log("VENCEDORRRR: ", combat.winner);
         console.log(rank);
         response.json(rank);
     }
@@ -41,12 +40,12 @@ function getSimilarityRank(combat) {
         similarity1 += combat.pokemon1.getSimilarityValue(pokemon1);
         similarity1 += combat.pokemon2.getSimilarityValue(pokemon2);
         similarity1 /= 2;
-
+        
         let similarity2 = 0;
         similarity2 += combat.pokemon1.getSimilarityValue(pokemon2);
         similarity2 += combat.pokemon2.getSimilarityValue(pokemon1);
         similarity2 /= 2;
-                    
+
         let similarity;
         if(similarity1 > similarity2) {
             similarity = similarity1;
@@ -110,7 +109,7 @@ class Pokemon {
                  + TYPE_WEIGHT * getSimilarityTypeValue(this.types[1], pokemon.types[0]);        
         sum += (sim1 > sim2) ? sim1 : sim2;
         
-        return sum / (Object.keys(this.stats).length + 6);
+        return sum / (Object.keys(this.stats).length + 2 * TYPE_WEIGHT);
     }
 }
 
