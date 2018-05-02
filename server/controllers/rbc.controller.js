@@ -142,14 +142,15 @@ const STATS = {
 }
 
 function getSimilarityNumberValue(a, b, min, max) {
-    return 1- Math.abs(a - b) / (max - min);
+    return 1- Math.abs(parseInt(a) - parseInt(b)) / (parseInt(max) - parseInt(min));
 }
 
 function getSimilarityTypeValue(type1, type2) {
     let similarities = 0;
     let size = type1.effectiveness.length;
     for(let i = 0; i < size; i++)
-        similarities += (type1.effectiveness[i] == type2.effectiveness[i]) ? 1 : 0;
+        similarities += getSimilarityNumberValue(type1.effectiveness[i], type2.effectiveness[i], 0, 2);
+        //similarities += (type1.effectiveness[i] == type2.effectiveness[i]) ? 1 : 0;
     return similarities / size;
 }
 
